@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brewery Shop Finder</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Find Brewery Shops in Your City</h1>
+        <small>Note: This Website Is Designed To Locate Brewery Shops in United States</small>
+        <form action="/search" method="POST">
+            <input type="text" name="city" placeholder="Enter city name" value="<%= city %>" required>
+            <button type="submit">Search</button>
+        </form>
+
+        <% if (shops && shops.length > 0) { %>
+            <h2>Shops in <%= city %>:</h2>
+            <div class="grid">
+                <% shops.forEach(shop => { %>
+                    <div class="card">
+                        <h3><%= shop.name %></h3>
+                        <p><%= shop.city %>, <%= shop.state %>, <%= shop.country %></p>
+                        <!-- <p>Longitude: shop.longitude Latitude: shop.latitudep> -->
+                            <% if (shop.latitude && shop.longitude) { %>
+                                <a href="https://www.google.com/maps?q=<%= shop.latitude %>,<%= shop.longitude %>" 
+                                   target="_blank" rel="noopener noreferrer">
+                                   Location
+                                </a>
+                            <% } %>
+                        <% if (shop.websiteurl) { %>
+                            <a href="<%= shop.websiteurl %>" target="_blank">Visit Website</a>
+                        <% } %>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else if (city) { %>
+            <p>No shops found in <%= city %>. Try another city.</p>
+        <% } %>
+    </div>
+
+</body>
+</html>
